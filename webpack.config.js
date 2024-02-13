@@ -3,7 +3,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: '.src/main.js',
+  entry: './src/main.js',
   output: {
     filename: 'bundle.[contenthash].js',
     path: path.resolve(__dirname, 'build'),
@@ -31,9 +31,9 @@ module.exports = {
         test: /\.js$/,
         exclude: /(node_modules)/,
         use: {
-          lader: 'babel-loader',
+          loader: 'babel-loader',
           options: {
-            presents: ['@babel/preset-env']
+            presets: ['@babel/preset-env']
           },
         },
       },
