@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 import FilterView from './view/filter-view';
 import InfoView from './view/info-view';
 import InfoMainView from './view/info-main-view';
@@ -30,4 +28,3 @@ const eventsPresenter = new EventsPresenter({
 });
 
 eventsPresenter.init();
->>>>>>> Stashed changes
