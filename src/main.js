@@ -5,20 +5,26 @@ import InfoCostView from './view/info-cost-view';
 import SortView from './view/sort-view';
 import { render, RenderPosition } from './render';
 import EventsPresenter from './presenter/events-presenter';
+import EventsModel from './model/events-model';
 
-const MainElement = document.querySelector('.trip-main');
-const ControlsFiltersElement = MainElement.querySelector('.trip-controls__filters');
+const mainElement = document.querySelector('.trip-main');
+const filtersElement = mainElement.querySelector('.trip-controls__filters');
 
-render(new InfoView(), MainElement, RenderPosition.AFTERBEGIN);
-render(new FilterView(), ControlsFiltersElement);
+render(new InfoView(), mainElement, RenderPosition.AFTERBEGIN);
+render(new FilterView(), filtersElement);
 
-const InfoElement = MainElement.querySelector('.trip-info');
-render(new InfoMainView(), InfoElement);
-render(new InfoCostView(), InfoElement);
+const infoElement = mainElement.querySelector('.trip-info');
+render(new InfoMainView(), infoElement);
+render(new InfoCostView(), infoElement);
 
-const TripEventsElement = document.querySelector('.trip-events');
-render(new SortView(), TripEventsElement);
+const eventsElement = document.querySelector('.trip-events');
+render(new SortView(), eventsElement);
 
-const eventsPresenter = new EventsPresenter({eventsContainer: TripEventsElement});
+const eventsModel = new EventsModel();
+
+const eventsPresenter = new EventsPresenter({
+  eventsContainer: eventsElement,
+  eventsModel,
+});
 
 eventsPresenter.init();
