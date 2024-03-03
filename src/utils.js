@@ -45,23 +45,12 @@ const capitalizeFirstLetter = (word) => word.charAt(0).toUpperCase() + word.slic
 const currentDate = () => dayjs();
 
 const getRandomElements = (array, minSize, maxSize) => {
-  const shuffledArray = array.slice();
 
-  const shuffleArray = (arr) => {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-  };
-
-  const shuffled = shuffleArray(shuffledArray);
+  const shuffledArray = array.sort(() => Math.random() - 0.5);
 
   const count = Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize;
 
-  const selectedElements = shuffled.slice(0, count);
-
-  return selectedElements;
+  return shuffledArray.slice(0, count);
 };
 
 export {getRandomArrayElement, getRandomElements, getRandomInteger, formatDate, calculateDuration, currentDate, capitalizeFirstLetter};
