@@ -3,7 +3,7 @@ import InfoView from './view/info-view';
 import InfoMainView from './view/info-main-view';
 import InfoCostView from './view/info-cost-view';
 import SortView from './view/sort-view';
-import { render, RenderPosition } from './render';
+import {render, RenderPosition} from './framework/render';
 import EventsPresenter from './presenter/events-presenter';
 import EventsModel from './model/events-model';
 
