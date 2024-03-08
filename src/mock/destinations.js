@@ -1,4 +1,4 @@
-import {getRandomArrayElement, getRandomInteger} from '../utils/common';
+import {getRandomArrayElement, getRandomInteger, makeIdGenerator} from '../utils/common';
 
 const destinations = ['Amsterdam', 'Chamonix', 'Geneva', 'Paris', 'Tallinn'];
 
@@ -13,9 +13,12 @@ const generatePicturesArray = () => Array.from({length: getRandomInteger(0, 5)},
   alt: getRandomArrayElement(destinationPictureAltTexts)
 }));
 
+const generateDestinationId = makeIdGenerator();
+
 const generateDestinations = destinations.map((destination) => ({
-  name: destination,
+  id: generateDestinationId(),
   description: getRandomArrayElement(destinationDescriptions),
+  name: destination,
   pictures: generatePicturesArray()
 }));
 

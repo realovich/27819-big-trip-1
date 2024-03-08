@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view';
-import {currentDate, formatDate, capitalizeFirstLetter} from '../utils/common';
+import {currentDate, formatDate, capitalizeFirstLetter, replaceSpaceAndLowercase} from '../utils/common';
 
 const BLANK_EVENT = {
   basePrice: '',
@@ -15,11 +15,11 @@ const createEventEditOffersTemplate = (type, allOffers, eventOffers) => {
 
   const setCheckedAttribute = (currentOfferId) => eventOffers.find((eventOffer) => eventOffer.id === currentOfferId) ? 'checked' : '';
 
-  return offersByType.map((offer) =>
+  return offersByType.map((offer, index) =>
     `
     <div class="event__offer-selector">
-      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.title}-1" type="checkbox" name="event-offer-${offer.title}" ${setCheckedAttribute(offer.id)}>
-      <label class="event__offer-label" for="event-offer-${offer.title}-1">
+      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${replaceSpaceAndLowercase(offer.title)}-${index}" type="checkbox" name="event-offer-${replaceSpaceAndLowercase(offer.title)}" ${setCheckedAttribute(offer.id)}>
+      <label class="event__offer-label" for="event-offer-${replaceSpaceAndLowercase(offer.title)}-${index}">
         <span class="event__offer-title">Add ${offer.title}</span>
         &plus;&euro;&nbsp;
         <span class="event__offer-price">${offer.price}</span>

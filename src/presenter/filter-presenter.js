@@ -3,14 +3,14 @@ import {render} from '../framework/render';
 import {filter} from '../utils/filter';
 
 export default class FilterPresenter {
-  #filterContainer = null;
+  #container = null;
   #eventsModel = null;
 
   #events = [];
   #filters = [];
 
   constructor({container, eventsModel}) {
-    this.#filterContainer = container;
+    this.#container = container;
     this.#eventsModel = eventsModel;
   }
 
@@ -18,7 +18,7 @@ export default class FilterPresenter {
     this.#events = [...this.#eventsModel.events];
     this.#filters = this.#generateFilters(this.#events);
 
-    render(new FilterView(this.#filters), this.#filterContainer);
+    render(new FilterView(this.#filters), this.#container);
   }
 
   #generateFilters(events) {

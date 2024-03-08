@@ -3,6 +3,7 @@ import InfoMainView from './view/info-main-view';
 import InfoCostView from './view/info-cost-view';
 import {render, RenderPosition} from './framework/render';
 import FilterPresenter from './presenter/filter-presenter';
+import SortPresenter from './presenter/sort-presenter';
 import EventsPresenter from './presenter/events-presenter';
 import EventsModel from './model/events-model';
 
@@ -24,10 +25,16 @@ const filterPresenter = new FilterPresenter({
   eventsModel,
 });
 
+const sortPresenter = new SortPresenter ({
+  container: eventsElement,
+  eventsModel,
+});
+
 const eventsPresenter = new EventsPresenter({
   container: eventsElement,
   eventsModel,
 });
 
 filterPresenter.init();
+sortPresenter.init();
 eventsPresenter.init();

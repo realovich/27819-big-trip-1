@@ -57,6 +57,15 @@ const generatePastDate = () => {
   return dayjs(randomTimestamp);
 };
 
+const makeIdGenerator = () => {
+  let count = 0;
+
+  return () => {
+    count += 1;
+    return `${count}`;
+  };
+};
+
 const capitalizeFirstLetter = (word) => word.charAt(0).toUpperCase() + word.slice(1);
 
 const getRandomElements = (array, minSize, maxSize) => {
@@ -68,4 +77,6 @@ const getRandomElements = (array, minSize, maxSize) => {
   return shuffledArray.slice(0, count);
 };
 
-export {getRandomArrayElement, getRandomElements, getRandomInteger, formatDate, calculateDuration, currentDate, generateFutureDate, generatePastDate, capitalizeFirstLetter};
+const replaceSpaceAndLowercase = (string) => string.replace(/ /g, '_').toLowerCase();
+
+export {getRandomArrayElement, getRandomElements, getRandomInteger, formatDate, calculateDuration, currentDate, generateFutureDate, generatePastDate, capitalizeFirstLetter, makeIdGenerator, replaceSpaceAndLowercase};

@@ -38,8 +38,6 @@ export default class EventsPresenter {
       return;
     }
 
-    render(this.#sortComponent, this.#eventsContainer);
-
     render(this.#eventsComponent, this.#eventsContainer);
   }
 
