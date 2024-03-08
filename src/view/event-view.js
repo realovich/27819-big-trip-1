@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view';
-import {calculateDuration, formatDate} from '../utils.js';
+import {calculateDuration, formatDate} from '../utils/common.js';
 
 const createOffersListTemplate = (offers) => {
   if (offers.length === 0) {
@@ -63,10 +63,10 @@ export default class EventView extends AbstractView {
   #event = null;
   #handleRollupClick = null;
 
-  constructor({event, onRollupClick}) {
+  constructor({event, onEditClick}) {
     super();
     this.#event = event;
-    this.#handleRollupClick = onRollupClick;
+    this.#handleRollupClick = onEditClick;
 
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#rollupClickHandler);
   }

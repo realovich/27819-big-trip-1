@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view';
-import {currentDate, formatDate, capitalizeFirstLetter} from '../utils';
+import {currentDate, formatDate, capitalizeFirstLetter} from '../utils/common';
 
 const BLANK_EVENT = {
   basePrice: '',
@@ -92,7 +92,7 @@ const createEventEditTemplate = (event = {}, allOffers, allDestinations) => {
   
         <div class="event__field-group  event__field-group--time">
           <label class="visually-hidden" for="event-start-time-1">From</label>
-          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="1${formatDate(dateFrom, 'DD/MM/YY HH:mm')}">
+          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${formatDate(dateFrom, 'DD/MM/YY HH:mm')}">
           &mdash;
           <label class="visually-hidden" for="event-end-time-1">To</label>
           <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${formatDate(dateTo, 'DD/MM/YY HH:mm')}">
@@ -136,16 +136,18 @@ export default class EventEditView extends AbstractView {
   #offers = null;
   #destinations = null;
   #handleFormSubmit = null;
+  #handleResetClick = null;
 
-  constructor({event = BLANK_EVENT, generateOffers, generateDestinations, onFormSubmit}) {
+  constructor({event = BLANK_EVENT, generateOffers, generateDestinations, onFormSubmit, onResetClick}) {
     super();
     this.#event = event;
     this.#offers = generateOffers;
     this.#destinations = generateDestinations;
     this.#handleFormSubmit = onFormSubmit;
+    this.#handleResetClick = onResetClick;
 
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#formSubmitHandler);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#resetClickHandler);
   }
 
   get template() {
@@ -155,5 +157,10 @@ export default class EventEditView extends AbstractView {
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     this.#handleFormSubmit();
+  };
+
+  #resetClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleResetClick();
   };
 }

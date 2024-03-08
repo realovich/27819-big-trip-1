@@ -40,9 +40,24 @@ const calculateDuration = (dateFrom, dateTo) => {
   return `${days}D ${restOfHours}H ${restOfMinutes}M`;
 };
 
-const capitalizeFirstLetter = (word) => word.charAt(0).toUpperCase() + word.slice(1);
-
 const currentDate = () => dayjs();
+
+const generateFutureDate = () => {
+  const minMinutesGap = 4;
+  const maxMinutesGap = 4 * 24 * 60;
+  const daysGap = getRandomInteger(minMinutesGap, maxMinutesGap);
+
+  return dayjs().add(daysGap, 'minutes').toDate();
+};
+
+const generatePastDate = () => {
+  const now = dayjs();
+  const fourDaysAgo = now.subtract(4, 'day');
+  const randomTimestamp = fourDaysAgo.valueOf() + Math.random() * (now.valueOf() - fourDaysAgo.valueOf());
+  return dayjs(randomTimestamp);
+};
+
+const capitalizeFirstLetter = (word) => word.charAt(0).toUpperCase() + word.slice(1);
 
 const getRandomElements = (array, minSize, maxSize) => {
 
@@ -53,4 +68,4 @@ const getRandomElements = (array, minSize, maxSize) => {
   return shuffledArray.slice(0, count);
 };
 
-export {getRandomArrayElement, getRandomElements, getRandomInteger, formatDate, calculateDuration, currentDate, capitalizeFirstLetter};
+export {getRandomArrayElement, getRandomElements, getRandomInteger, formatDate, calculateDuration, currentDate, generateFutureDate, generatePastDate, capitalizeFirstLetter};
