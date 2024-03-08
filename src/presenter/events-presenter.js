@@ -1,5 +1,4 @@
 import NoEventsView from '../view/no-events-view';
-import SortView from '../view/sort-view';
 import EventsListView from '../view/events-list-view';
 import EventView from '../view/event-view';
 import EventEditView from '../view/event-edit-view';
@@ -10,7 +9,6 @@ import {render, replace} from '../framework/render';
 export default class EventsPresenter {
   #eventsComponent = new EventsListView();
   #noEventsComponent = new NoEventsView();
-  #sortComponent = new SortView();
 
   #eventsContainer = null;
   #eventsModel = null;
