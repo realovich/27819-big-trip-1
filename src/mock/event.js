@@ -1,15 +1,6 @@
-import dayjs from 'dayjs';
 import { generateOffers } from './offers';
 import { generateDestinations } from './destinations';
-import {getRandomArrayElement, getRandomInteger, getRandomElements, currentDate} from '../utils';
-
-const generateDate = () => {
-  const minMinutesGap = 4;
-  const maxMinutesGap = 4 * 24 * 60;
-  const daysGap = getRandomInteger(minMinutesGap, maxMinutesGap);
-
-  return dayjs().add(daysGap, 'minutes').toDate();
-};
+import {getRandomArrayElement, getRandomInteger, getRandomElements, generateFutureDate, generatePastDate} from '../utils/common';
 
 const generateEvent = () => {
   const offerType = getRandomArrayElement(generateOffers);
@@ -17,8 +8,8 @@ const generateEvent = () => {
   return {
     type: offerType.type,
     basePrice: getRandomInteger(80, 160),
-    dateFrom: currentDate(),
-    dateTo: generateDate(),
+    dateFrom: generatePastDate(),
+    dateTo: generateFutureDate(),
     destination: getRandomArrayElement(generateDestinations),
     offers: getRandomElements(offerType.offers, 1, 2),
     isFavorite: Boolean(getRandomInteger(0, 1))

@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view';
-import {currentDate, formatDate, capitalizeFirstLetter} from '../utils';
+import {currentDate, formatDate, capitalizeFirstLetter, replaceSpaceAndLowercase} from '../utils/common';
 
 const BLANK_EVENT = {
   basePrice: '',
@@ -15,11 +15,11 @@ const createEventEditOffersTemplate = (type, allOffers, eventOffers) => {
 
   const setCheckedAttribute = (currentOfferId) => eventOffers.find((eventOffer) => eventOffer.id === currentOfferId) ? 'checked' : '';
 
-  return offersByType.map((offer) =>
+  return offersByType.map((offer, index) =>
     `
     <div class="event__offer-selector">
-      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.title}-1" type="checkbox" name="event-offer-${offer.title}" ${setCheckedAttribute(offer.id)}>
-      <label class="event__offer-label" for="event-offer-${offer.title}-1">
+      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${replaceSpaceAndLowercase(offer.title)}-${index}" type="checkbox" name="event-offer-${replaceSpaceAndLowercase(offer.title)}" ${setCheckedAttribute(offer.id)}>
+      <label class="event__offer-label" for="event-offer-${replaceSpaceAndLowercase(offer.title)}-${index}">
         <span class="event__offer-title">Add ${offer.title}</span>
         &plus;&euro;&nbsp;
         <span class="event__offer-price">${offer.price}</span>
@@ -92,7 +92,7 @@ const createEventEditTemplate = (event = {}, allOffers, allDestinations) => {
   
         <div class="event__field-group  event__field-group--time">
           <label class="visually-hidden" for="event-start-time-1">From</label>
-          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="1${formatDate(dateFrom, 'DD/MM/YY HH:mm')}">
+          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${formatDate(dateFrom, 'DD/MM/YY HH:mm')}">
           &mdash;
           <label class="visually-hidden" for="event-end-time-1">To</label>
           <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${formatDate(dateTo, 'DD/MM/YY HH:mm')}">
@@ -136,16 +136,18 @@ export default class EventEditView extends AbstractView {
   #offers = null;
   #destinations = null;
   #handleFormSubmit = null;
+  #handleResetClick = null;
 
-  constructor({event = BLANK_EVENT, generateOffers, generateDestinations, onFormSubmit}) {
+  constructor({event = BLANK_EVENT, generateOffers, generateDestinations, onFormSubmit, onResetClick}) {
     super();
     this.#event = event;
     this.#offers = generateOffers;
     this.#destinations = generateDestinations;
     this.#handleFormSubmit = onFormSubmit;
+    this.#handleResetClick = onResetClick;
 
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#formSubmitHandler);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#resetClickHandler);
   }
 
   get template() {
@@ -155,5 +157,10 @@ export default class EventEditView extends AbstractView {
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     this.#handleFormSubmit();
+  };
+
+  #resetClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleResetClick();
   };
 }
