@@ -2,7 +2,11 @@ import NoEventsView from '../view/no-events-view';
 import EventsListView from '../view/events-list-view';
 import EventView from '../view/event-view';
 import EventEditView from '../view/event-edit-view';
+import FilterPresenter from './filter-presenter';
+import SortPresenter from './sort-presenter';
 import {render, replace} from '../framework/render';
+
+const filtersElement = document.querySelector('.trip-controls__filters');
 
 export default class EventsPresenter {
   #eventsComponent = new EventsListView();
@@ -18,6 +22,16 @@ export default class EventsPresenter {
   #offersModel = null;
   #offers = [];
 
+  #filterPresenter = new FilterPresenter({
+    container: filtersElement,
+    eventsModel: this.#eventsModel,
+  });
+
+  #sortPresenter = new SortPresenter ({
+    container: this.#eventsContainer,
+    eventsModel: this.#eventsModel,
+  });
+
   constructor({container, eventsModel, destinationsModel, offersModel}) {
     this.#eventsContainer = container;
     this.#eventsModel = eventsModel;
@@ -29,6 +43,9 @@ export default class EventsPresenter {
     this.#events = [...this.#eventsModel.events];
     this.#destinations = this.#destinationsModel.destinations;
     this.#offers = this.#offersModel.offers;
+
+    this.#filterPresenter.init();
+    this.#sortPresenter.init();
 
     this.#renderEventsList();
 
