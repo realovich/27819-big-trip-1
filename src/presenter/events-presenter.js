@@ -22,16 +22,6 @@ export default class EventsPresenter {
   #offersModel = null;
   #offers = [];
 
-  #filterPresenter = new FilterPresenter({
-    container: filtersElement,
-    eventsModel: this.#eventsModel,
-  });
-
-  #sortPresenter = new SortPresenter ({
-    container: this.#eventsContainer,
-    eventsModel: this.#eventsModel,
-  });
-
   constructor({container, eventsModel, destinationsModel, offersModel}) {
     this.#eventsContainer = container;
     this.#eventsModel = eventsModel;
@@ -44,14 +34,31 @@ export default class EventsPresenter {
     this.#destinations = this.#destinationsModel.destinations;
     this.#offers = this.#offersModel.offers;
 
-    this.#filterPresenter.init();
-    this.#sortPresenter.init();
-
+    this.#renderFilter();
+    this.#renderSort();
     this.#renderEventsList();
 
     for (let i = 0; i < this.#events.length; i++) {
       this.#renderEvent(this.#events[i]);
     }
+  }
+
+  #renderFilter() {
+    const filterPresenter = new FilterPresenter({
+      container: filtersElement,
+      eventsModel: this.#eventsModel,
+    });
+
+    filterPresenter.init();
+  }
+
+  #renderSort() {
+    const sortPresenter = new SortPresenter ({
+      container: this.#eventsContainer,
+      eventsModel: this.#eventsModel,
+    });
+
+    sortPresenter.init();
   }
 
   #renderEventsList() {
