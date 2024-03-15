@@ -15,9 +15,14 @@ export default class EventsPresenter {
 
   #events = [];
 
-  constructor({container, eventsModel}) {
+  #destinationsModel = null;
+  #offersModel = null;
+
+  constructor({container, eventsModel, destinationsModel, offersModel}) {
     this.#eventsContainer = container;
     this.#eventsModel = eventsModel;
+    this.#destinationsModel = destinationsModel;
+    this.#offersModel = offersModel;
   }
 
   init() {
