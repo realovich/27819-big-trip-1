@@ -2,8 +2,6 @@ import NoEventsView from '../view/no-events-view';
 import EventsListView from '../view/events-list-view';
 import EventView from '../view/event-view';
 import EventEditView from '../view/event-edit-view';
-import {generateOffers} from '../mock/offers';
-import {generateDestinations} from '../mock/destinations';
 import {render, replace} from '../framework/render';
 
 export default class EventsPresenter {
@@ -12,11 +10,13 @@ export default class EventsPresenter {
 
   #eventsContainer = null;
   #eventsModel = null;
-
   #events = [];
 
   #destinationsModel = null;
+  #destinations = [];
+
   #offersModel = null;
+  #offers = [];
 
   constructor({container, eventsModel, destinationsModel, offersModel}) {
     this.#eventsContainer = container;
@@ -27,6 +27,8 @@ export default class EventsPresenter {
 
   init() {
     this.#events = [...this.#eventsModel.events];
+    this.#destinations = this.#destinationsModel.destinations;
+    this.#offers = this.#offersModel.offers;
 
     this.#renderEventsList();
 
@@ -52,8 +54,8 @@ export default class EventsPresenter {
 
     const eventEditComponent = new EventEditView({
       event,
-      generateOffers,
-      generateDestinations,
+      destinations: this.#destinations,
+      offers: this.#offers,
       onFormSubmit: formSubmitHandler,
       onResetClick: resetClickHandler
     });
