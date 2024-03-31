@@ -4,6 +4,7 @@ import FilterPresenter from './filter-presenter';
 import SortPresenter from './sort-presenter';
 import EventPresenter from './event-presenter';
 import {render} from '../framework/render';
+import {updateItem} from '../utils/common.js';
 
 const filtersElement = document.querySelector('.trip-controls__filters');
 
@@ -14,6 +15,7 @@ export default class PagePresenter {
   #eventsContainer = null;
   #eventsModel = null;
   #events = [];
+  #eventPresenters = new Map();
 
   #destinationsModel = null;
   #destinations = [];
@@ -42,6 +44,15 @@ export default class PagePresenter {
     }
   }
 
+  #handleModeChange = () => {
+    this.#eventPresenters.forEach((presenter) => presenter.resetView());
+  };
+
+  #handleEventChange = (updatedEvent) => {
+    this.#events = updateItem(this.#events, updatedEvent);
+    this.#eventPresenters.get(updatedEvent.id).init(updatedEvent);
+  };
+
   #renderFilter() {
     const filterPresenter = new FilterPresenter({
       container: filtersElement,
@@ -60,6 +71,11 @@ export default class PagePresenter {
     sortPresenter.init();
   }
 
+  #clearEventsList() {
+    this.#eventPresenters.forEach((presenter) => presenter.destroy());
+    this.#eventPresenters.clear();
+  }
+
   #renderEventsList() {
     if (this.#events.length === 0) {
       render(this.#noEventsComponent, this.#eventsContainer);
@@ -73,9 +89,12 @@ export default class PagePresenter {
     const eventPresenter = new EventPresenter({
       eventsListContainer: this.#eventsListComponent.element,
       destinationsModel: this.#destinationsModel,
-      offersModel: this.#offersModel
+      offersModel: this.#offersModel,
+      onDataChange: this.#handleEventChange,
+      onModeChange: this.#handleModeChange,
     });
 
     eventPresenter.init(event);
+    this.#eventPresenters.set(event.id, eventPresenter);
   }
 }

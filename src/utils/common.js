@@ -79,4 +79,6 @@ const getRandomElements = (array, minSize, maxSize) => {
 
 const replaceSpaceAndLowercase = (string) => string.replace(/ /g, '_').toLowerCase();
 
-export {getRandomArrayElement, getRandomElements, getRandomInteger, formatDate, calculateDuration, currentDate, generateFutureDate, generatePastDate, capitalizeFirstLetter, makeIdGenerator, replaceSpaceAndLowercase};
+const updateItem = (items, update) => items.map((item) => item.id === update.id ? update : item);
+
+export {getRandomArrayElement, getRandomElements, getRandomInteger, formatDate, calculateDuration, currentDate, generateFutureDate, generatePastDate, capitalizeFirstLetter, makeIdGenerator, replaceSpaceAndLowercase, updateItem};
