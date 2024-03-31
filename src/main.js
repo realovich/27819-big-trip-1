@@ -2,7 +2,7 @@ import InfoView from './view/info-view';
 import InfoMainView from './view/info-main-view';
 import InfoCostView from './view/info-cost-view';
 import {render, RenderPosition} from './framework/render';
-import EventsPresenter from './presenter/events-presenter';
+import PagePresenter from './presenter/page-presenter';
 import EventsModel from './model/events-model';
 import DestinationsModel from './model/destinations-model';
 import OffersModel from './model/offers-model';
@@ -20,11 +20,11 @@ const eventsModel = new EventsModel();
 const destinationsModel = new DestinationsModel();
 const offersModel = new OffersModel();
 
-const eventsPresenter = new EventsPresenter({
-  container: eventsElement,
+const pagePresenter = new PagePresenter({
+  eventsContainer: eventsElement,
   eventsModel,
   destinationsModel,
   offersModel
 });
 
-eventsPresenter.init();
+pagePresenter.init();
