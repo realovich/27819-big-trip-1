@@ -138,11 +138,11 @@ export default class EventEditView extends AbstractView {
   #handleFormSubmit = null;
   #handleResetClick = null;
 
-  constructor({event = BLANK_EVENT, generateOffers, generateDestinations, onFormSubmit, onResetClick}) {
+  constructor({event = BLANK_EVENT, destinations, offers, onFormSubmit, onResetClick}) {
     super();
     this.#event = event;
-    this.#offers = generateOffers;
-    this.#destinations = generateDestinations;
+    this.#destinations = destinations;
+    this.#offers = offers;
     this.#handleFormSubmit = onFormSubmit;
     this.#handleResetClick = onResetClick;
 
@@ -156,7 +156,7 @@ export default class EventEditView extends AbstractView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#handleFormSubmit();
+    this.#handleFormSubmit(this.#event);
   };
 
   #resetClickHandler = (evt) => {
