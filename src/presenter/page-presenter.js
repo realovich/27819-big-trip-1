@@ -77,7 +77,7 @@ export default class PagePresenter {
   }
 
   #renderEventsList() {
-    if (this.#events.length === 0) {
+    if (!this.#events.length) {
       render(this.#noEventsComponent, this.#eventsContainer);
       return;
     }
