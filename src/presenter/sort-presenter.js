@@ -17,7 +17,7 @@ export default class SortPresenter {
   }
 
   init() {
-    this.#events = [...this.#eventsModel.events.sort(sort[this.#currentSortType])];
+    this.#events = [...this.#eventsModel.getEvents(this.#currentSortType)];
 
     this.#sortComponent = new SortView({
       onSortTypeChange: this.#handleSortTypeChange
@@ -30,25 +30,7 @@ export default class SortPresenter {
     render(this.#sortComponent, this.#container);
   }
 
-  #sortEvents(sortType) {
-    switch (sortType) {
-      case SortType.DAY:
-        this.#events.sort(sort[SortType.DAY]);
-        break;
-      case SortType.TIME:
-        this.#events.sort(sort[SortType.TIME]);
-        break;
-      case SortType.PRICE:
-        this.#events.sort(sort[SortType.TIME]);
-        break;
-    }
-
-    this.#currentSortType = sortType;
-  }
-
   #handleSortTypeChange = (sortType) => {
-    this.#sortEvents(sortType);
-
     console.log(sortType);
   };
 }

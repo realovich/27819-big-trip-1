@@ -11,7 +11,8 @@ export default class EventsModel {
   }
 
   getEvents(sortType) {
-    this.#events.sort(sort[sortType]);
-    return this.#events;
+    const sortedEvents = [...this.#events];
+    sortedEvents.sort(sort[sortType]);
+    return sortedEvents;
   }
 }
