@@ -15,7 +15,7 @@ export default class FilterPresenter {
   }
 
   init() {
-    this.#events = [...this.#eventsModel.events];
+    this.#events = [...this.#eventsModel.getEvents()];
     this.#filters = this.#generateFilters(this.#events);
 
     render(new FilterView(this.#filters), this.#container);

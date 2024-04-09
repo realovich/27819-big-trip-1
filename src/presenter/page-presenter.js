@@ -31,7 +31,7 @@ export default class PagePresenter {
   }
 
   init() {
-    this.#events = [...this.#eventsModel.events];
+    this.#events = [...this.#eventsModel.getEvents()];
     this.#destinations = this.#destinationsModel.destinations;
     this.#offers = this.#offersModel.offers;
 
