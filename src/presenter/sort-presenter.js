@@ -1,5 +1,5 @@
 import SortView from '../view/sort-view';
-import {SortType, sort} from '../utils/sort';
+import {SortType} from '../utils/sort';
 import {render} from '../framework/render';
 
 export default class SortPresenter {
