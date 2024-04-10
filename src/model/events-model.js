@@ -8,7 +8,13 @@ export default class EventsModel {
 
   getEvents(sortType) {
     const sortedEvents = [...this.#events];
-    //sortedEvents.sort(sort[sortType]);
-    return sortedEvents;
+
+    if (sortType) {
+      //sortedEvents.sort(sort[sortType]);
+      sort[sortType](sortedEvents);
+      return sortedEvents;
+    }
+
+    return this.#events;
   }
 }

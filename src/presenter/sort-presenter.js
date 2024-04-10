@@ -31,6 +31,6 @@ export default class SortPresenter {
   }
 
   #handleSortTypeChange = (sortType) => {
-    console.log(sortType);
+    this.#currentSortType = sortType;
   };
 }
