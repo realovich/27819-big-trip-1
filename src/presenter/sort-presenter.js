@@ -7,13 +7,15 @@ export default class SortPresenter {
   #sortComponent = null;
   #eventsModel = null;
 
+  #handleSortFormChange = null;
   #currentSortType = SortType.DAY;
 
   #events = [];
 
-  constructor({container, eventsModel}) {
+  constructor({container, eventsModel, onSortFormChange}) {
     this.#container = container;
     this.#eventsModel = eventsModel;
+    this.#handleSortFormChange = onSortFormChange;
   }
 
   init() {
@@ -32,5 +34,6 @@ export default class SortPresenter {
 
   #handleSortTypeChange = (sortType) => {
     this.#currentSortType = sortType;
+    this.#handleSortFormChange = sortType;
   };
 }

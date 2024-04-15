@@ -5,6 +5,7 @@ import SortPresenter from './sort-presenter';
 import EventPresenter from './event-presenter';
 import {render} from '../framework/render';
 import {updateItem} from '../utils/common.js';
+import {SortType} from '../utils/sort';
 
 const filtersElement = document.querySelector('.trip-controls__filters');
 
@@ -16,6 +17,8 @@ export default class PagePresenter {
   #eventsModel = null;
   #events = [];
   #eventPresenters = new Map();
+
+  #currentSortType = SortType.DAY;
 
   #destinationsModel = null;
   #destinations = [];
@@ -31,7 +34,7 @@ export default class PagePresenter {
   }
 
   init() {
-    this.#events = [...this.#eventsModel.getEvents()];
+    this.#events = [...this.#eventsModel.getEvents(this.#currentSortType)];
     this.#destinations = this.#destinationsModel.destinations;
     this.#offers = this.#offersModel.offers;
 
@@ -53,6 +56,10 @@ export default class PagePresenter {
     this.#eventPresenters.get(updatedEvent.id).init(updatedEvent);
   };
 
+  #handleSortFormChange = (sortType) => {
+    this.#currentSortType = sortType;
+  };
+
   #renderFilter() {
     const filterPresenter = new FilterPresenter({
       container: filtersElement,
@@ -66,6 +73,7 @@ export default class PagePresenter {
     const sortPresenter = new SortPresenter ({
       container: this.#eventsContainer,
       eventsModel: this.#eventsModel,
+      onSortFormChange: this.#handleSortFormChange,
     });
 
     sortPresenter.init();
