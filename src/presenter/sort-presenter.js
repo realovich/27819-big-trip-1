@@ -34,6 +34,6 @@ export default class SortPresenter {
 
   #handleSortTypeChange = (sortType) => {
     this.#currentSortType = sortType;
-    this.#handleSortFormChange = sortType;
+    this.#handleSortFormChange(sortType);
   };
 }

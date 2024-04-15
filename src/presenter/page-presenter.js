@@ -58,6 +58,8 @@ export default class PagePresenter {
 
   #handleSortFormChange = (sortType) => {
     this.#currentSortType = sortType;
+    this.#clearEventsList();
+    this.#renderEventsList();
   };
 
   #renderFilter() {
