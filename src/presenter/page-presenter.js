@@ -5,6 +5,7 @@ import SortPresenter from './sort-presenter';
 import EventPresenter from './event-presenter';
 import {render} from '../framework/render';
 import {updateItem} from '../utils/common.js';
+import {SortType} from '../utils/sort';
 
 const filtersElement = document.querySelector('.trip-controls__filters');
 
@@ -16,6 +17,8 @@ export default class PagePresenter {
   #eventsModel = null;
   #events = [];
   #eventPresenters = new Map();
+
+  #currentSortType = SortType.DAY;
 
   #destinationsModel = null;
   #destinations = [];
@@ -31,17 +34,13 @@ export default class PagePresenter {
   }
 
   init() {
-    this.#events = [...this.#eventsModel.events];
+    this.#events = [...this.#eventsModel.getEvents(this.#currentSortType)];
     this.#destinations = this.#destinationsModel.destinations;
     this.#offers = this.#offersModel.offers;
 
     this.#renderFilter();
     this.#renderSort();
     this.#renderEventsList();
-
-    for (let i = 0; i < this.#events.length; i++) {
-      this.#renderEvent(this.#events[i]);
-    }
   }
 
   #handleModeChange = () => {
@@ -51,6 +50,13 @@ export default class PagePresenter {
   #handleEventChange = (updatedEvent) => {
     this.#events = updateItem(this.#events, updatedEvent);
     this.#eventPresenters.get(updatedEvent.id).init(updatedEvent);
+  };
+
+  #handleSortFormChange = (sortType) => {
+    this.#currentSortType = sortType;
+    this.#events = [...this.#eventsModel.getEvents(this.#currentSortType)];
+    this.#clearEventsList();
+    this.#renderEventsList();
   };
 
   #renderFilter() {
@@ -66,6 +72,7 @@ export default class PagePresenter {
     const sortPresenter = new SortPresenter ({
       container: this.#eventsContainer,
       eventsModel: this.#eventsModel,
+      onSortFormChange: this.#handleSortFormChange,
     });
 
     sortPresenter.init();
@@ -77,12 +84,16 @@ export default class PagePresenter {
   }
 
   #renderEventsList() {
-    if (this.#events.length === 0) {
+    if (!this.#events.length) {
       render(this.#noEventsComponent, this.#eventsContainer);
       return;
     }
 
     render(this.#eventsListComponent, this.#eventsContainer);
+
+    for (let i = 0; i < this.#events.length; i++) {
+      this.#renderEvent(this.#events[i]);
+    }
   }
 
   #renderEvent(event) {

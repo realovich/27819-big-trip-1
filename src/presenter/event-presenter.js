@@ -55,16 +55,14 @@ export default class EventPresenter {
       onResetClick: this.#handleResetClick,
     });
 
-    if (prevEventComponent === null || prevEventEditComponent === null) {
+    if (!prevEventComponent || !prevEventEditComponent) {
       render(this.#eventComponent, this.#eventsListContainer);
       return;
     }
 
     if (this.#mode === Mode.DEFAULT) {
       replace(this.#eventComponent, prevEventComponent);
-    }
-
-    if (this.#mode === Mode.EDITING) {
+    } else if (this.#mode === Mode.EDITING) {
       replace(this.#eventEditComponent, prevEventEditComponent);
     }
 
