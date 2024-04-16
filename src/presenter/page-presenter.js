@@ -41,10 +41,6 @@ export default class PagePresenter {
     this.#renderFilter();
     this.#renderSort();
     this.#renderEventsList();
-
-    for (let i = 0; i < this.#events.length; i++) {
-      this.#renderEvent(this.#events[i]);
-    }
   }
 
   #handleModeChange = () => {
@@ -58,6 +54,7 @@ export default class PagePresenter {
 
   #handleSortFormChange = (sortType) => {
     this.#currentSortType = sortType;
+    this.#events = [...this.#eventsModel.getEvents(this.#currentSortType)];
     this.#clearEventsList();
     this.#renderEventsList();
   };
@@ -93,6 +90,10 @@ export default class PagePresenter {
     }
 
     render(this.#eventsListComponent, this.#eventsContainer);
+
+    for (let i = 0; i < this.#events.length; i++) {
+      this.#renderEvent(this.#events[i]);
+    }
   }
 
   #renderEvent(event) {
