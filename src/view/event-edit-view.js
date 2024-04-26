@@ -1,4 +1,4 @@
-import AbstractView from '../framework/view/abstract-view';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view';
 import {currentDate, formatDate, capitalizeFirstLetter, replaceSpaceAndLowercase} from '../utils/common';
 
 const BLANK_EVENT = {
@@ -131,7 +131,7 @@ const createEventEditTemplate = (event = {}, allOffers, allDestinations) => {
   `;
 };
 
-export default class EventEditView extends AbstractView {
+export default class EventEditView extends AbstractStatefulView {
   #event = null;
   #offers = null;
   #destinations = null;
@@ -140,18 +140,35 @@ export default class EventEditView extends AbstractView {
 
   constructor({event = BLANK_EVENT, destinations, offers, onFormSubmit, onResetClick}) {
     super();
-    this.#event = event;
+
     this.#destinations = destinations;
     this.#offers = offers;
+    this.#event = event;
+
+    this._setState(this.parseEventToState(event));
+
     this.#handleFormSubmit = onFormSubmit;
     this.#handleResetClick = onResetClick;
 
-    this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#resetClickHandler);
+    this._restoreHandlers();
   }
 
   get template() {
     return createEventEditTemplate(this.#event, this.#offers, this.#destinations);
+  }
+
+  _restoreHandlers() {
+    this.element.querySelector('form')
+      .addEventListener('submit', this.#formSubmitHandler);
+
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#resetClickHandler);
+
+    this.element.querySelector('.event__type-group')
+      .addEventListener('click', this.#typeChangeHandler);
+
+    this.element.querySelector('.event__input--destination')
+      .addEventListener('change', this.#destinationChangeHandler);
   }
 
   #formSubmitHandler = (evt) => {
@@ -163,4 +180,16 @@ export default class EventEditView extends AbstractView {
     evt.preventDefault();
     this.#handleResetClick();
   };
+
+  #typeChangeHandler = (evt) => {
+    evt.preventDefault();
+  };
+
+  #destinationChangeHandler = (evt) => {
+    evt.preventDefault();
+  };
+
+  parseEventToState = ({event}) => ({event});
+
+  parseStateToEvent = (state) => state.event;
 }
