@@ -12,7 +12,7 @@ const generateEvent = () => {
     basePrice: getRandomInteger(80, 160),
     dateFrom: generatePastDate(),
     dateTo: generateFutureDate(),
-    destination: getRandomArrayElement(generateDestinations),
+    destination: getRandomArrayElement(generateDestinations).id,
     isFavorite: Boolean(getRandomInteger(0, 1)),
     offers: getRandomElements(offerType.offers, 1, 2),
     type: offerType.type,

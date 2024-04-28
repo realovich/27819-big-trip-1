@@ -20,8 +20,9 @@ const createOffersListTemplate = (offers) => {
   `;
 };
 
-const createEventTemplate = (event) => {
+const createEventTemplate = (event, allDestinations) => {
   const {type, dateFrom, dateTo, basePrice, isFavorite, destination, offers} = event;
+  const pointDestination = allDestinations.find((oneDestination) => oneDestination.id === destination);
 
   const favoriteClassName = isFavorite ? ' event__favorite-btn--active' : '';
 
@@ -32,7 +33,7 @@ const createEventTemplate = (event) => {
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
       </div>
-      <h3 class="event__title">${type} ${destination.name}</h3>
+      <h3 class="event__title">${type} ${pointDestination.name}</h3>
       <div class="event__schedule">
         <p class="event__time">
           <time class="event__start-time" datetime="${formatDate(dateFrom, 'YYYY-MM-DDTHH:mm')}">${formatDate(dateFrom, 'HH:mm')}</time>
@@ -61,12 +62,15 @@ const createEventTemplate = (event) => {
 
 export default class EventView extends AbstractView {
   #event = null;
+  #destinations = null;
   #handleRollupClick = null;
   #handleFavoriteClick = null;
 
-  constructor({event, onEditClick, onFavoriteClick}) {
+  constructor({event, destinations, onEditClick, onFavoriteClick}) {
     super();
     this.#event = event;
+    this.#destinations = destinations;
+
     this.#handleRollupClick = onEditClick;
     this.#handleFavoriteClick = onFavoriteClick;
 
@@ -75,7 +79,7 @@ export default class EventView extends AbstractView {
   }
 
   get template() {
-    return createEventTemplate(this.#event);
+    return createEventTemplate(this.#event, this.#destinations);
   }
 
   #rollupClickHandler = (evt) => {
