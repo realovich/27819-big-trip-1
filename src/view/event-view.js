@@ -2,6 +2,7 @@ import AbstractView from '../framework/view/abstract-view';
 import {calculateDuration, formatDate} from '../utils/common.js';
 
 const createOffersListTemplate = (offers) => {
+  console.log(offers);
   if (offers.length === 0) {
     return '';
   }
@@ -20,9 +21,12 @@ const createOffersListTemplate = (offers) => {
   `;
 };
 
-const createEventTemplate = (event, allDestinations) => {
+const createEventTemplate = (event, allDestinations, allOffers) => {
   const {type, dateFrom, dateTo, basePrice, isFavorite, destination, offers} = event;
-  const pointDestination = allDestinations.find((oneDestination) => oneDestination.id === destination);
+  const eventDestination = allDestinations.find((oneDestination) => oneDestination.id === destination);
+  const eventOffers = allOffers.filter((item) => event.offers.includes(item.id));
+
+  console.log(eventOffers);
 
   const favoriteClassName = isFavorite ? ' event__favorite-btn--active' : '';
 
@@ -33,7 +37,7 @@ const createEventTemplate = (event, allDestinations) => {
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
       </div>
-      <h3 class="event__title">${type} ${pointDestination.name}</h3>
+      <h3 class="event__title">${type} ${eventDestination.name}</h3>
       <div class="event__schedule">
         <p class="event__time">
           <time class="event__start-time" datetime="${formatDate(dateFrom, 'YYYY-MM-DDTHH:mm')}">${formatDate(dateFrom, 'HH:mm')}</time>
@@ -63,13 +67,16 @@ const createEventTemplate = (event, allDestinations) => {
 export default class EventView extends AbstractView {
   #event = null;
   #destinations = null;
+  #offers = null;
+
   #handleRollupClick = null;
   #handleFavoriteClick = null;
 
-  constructor({event, destinations, onEditClick, onFavoriteClick}) {
+  constructor({event, destinations, offers, onEditClick, onFavoriteClick}) {
     super();
     this.#event = event;
     this.#destinations = destinations;
+    this.#offers = offers;
 
     this.#handleRollupClick = onEditClick;
     this.#handleFavoriteClick = onFavoriteClick;
@@ -79,7 +86,7 @@ export default class EventView extends AbstractView {
   }
 
   get template() {
-    return createEventTemplate(this.#event, this.#destinations);
+    return createEventTemplate(this.#event, this.#destinations, this.#offers);
   }
 
   #rollupClickHandler = (evt) => {
