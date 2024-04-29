@@ -2,7 +2,6 @@ import AbstractView from '../framework/view/abstract-view';
 import {calculateDuration, formatDate} from '../utils/common.js';
 
 const createOffersListTemplate = (offers) => {
-  console.log(offers);
   if (offers.length === 0) {
     return '';
   }
@@ -24,9 +23,7 @@ const createOffersListTemplate = (offers) => {
 const createEventTemplate = (event, allDestinations, allOffers) => {
   const {type, dateFrom, dateTo, basePrice, isFavorite, destination, offers} = event;
   const eventDestination = allDestinations.find((oneDestination) => oneDestination.id === destination);
-  const eventOffers = allOffers.filter((item) => event.offers.includes(item.id));
-
-  console.log(eventOffers);
+  //const eventOffers = allOffers.filter((item) => event.offers.includes(item.id));
 
   const favoriteClassName = isFavorite ? ' event__favorite-btn--active' : '';
 
