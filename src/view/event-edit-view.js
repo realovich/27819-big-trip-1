@@ -243,7 +243,7 @@ export default class EventEditView extends AbstractStatefulView {
     });
   };
 
-  parseEventToState = (event) => (event);
+  parseEventToState = (event) => event;
 
-  parseStateToEvent = (state) => state.event;
+  parseStateToEvent = (state) => state;
 }
