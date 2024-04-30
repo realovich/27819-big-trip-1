@@ -13,7 +13,7 @@ const BLANK_EVENT = {
 const createEventEditOffersTemplate = (type, allOffers, eventOffers) => {
   const offersByType = allOffers.find((offer) => offer.type === type).offers;
 
-  const setCheckedAttribute = (currentOfferId) => eventOffers.find((eventOffer) => eventOffer.id === currentOfferId) ? 'checked' : '';
+  const setCheckedAttribute = (currentOfferId) => eventOffers.find((eventOffer) => eventOffer === currentOfferId) ? 'checked' : '';
 
   return offersByType.map((offer) =>
     `

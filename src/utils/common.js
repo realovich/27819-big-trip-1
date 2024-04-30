@@ -62,7 +62,7 @@ const makeIdGenerator = () => {
 
   return () => {
     count += 1;
-    return `${count}`;
+    return count;
   };
 };
 
