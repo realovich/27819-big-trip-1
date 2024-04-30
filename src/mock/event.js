@@ -2,7 +2,7 @@ import { generateOffers } from './offers';
 import { generateDestinations } from './destinations';
 import {getRandomArrayElement, getRandomInteger, getRandomElements, generateFutureDate, generatePastDate, makeIdGenerator} from '../utils/common';
 
-const eventOffersId = [1, 2, 3, 4, 5, 6];
+const eventOffersId = ['1', '2', '3', '4', '5', '6'];
 
 const generateEventId = makeIdGenerator();
 
