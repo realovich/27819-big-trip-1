@@ -54,7 +54,7 @@ const generatePastDate = () => {
   const now = dayjs();
   const fourDaysAgo = now.subtract(4, 'day');
   const randomTimestamp = fourDaysAgo.valueOf() + Math.random() * (now.valueOf() - fourDaysAgo.valueOf());
-  return dayjs(randomTimestamp);
+  return dayjs(randomTimestamp).toDate();
 };
 
 const makeIdGenerator = () => {
