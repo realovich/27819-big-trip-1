@@ -1,6 +1,7 @@
 import {render, replace, remove} from '../framework/render';
 import EventView from '../view/event-view';
 import EventEditView from '../view/event-edit-view';
+import {UserAction, UpdateType} from '../utils/const';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
@@ -55,6 +56,7 @@ export default class EventPresenter {
       offers: this.#offers,
       onFormSubmit: this.#handleFormSubmit,
       onResetClick: this.#handleResetClick,
+      onDeleteClick: this.#handleDeleteClick,
     });
 
     if (!prevEventComponent || !prevEventEditComponent) {
@@ -115,11 +117,29 @@ export default class EventPresenter {
   };
 
   #handleFormSubmit = (event) => {
-    this.#handleDataChange(event);
+    this.#handleDataChange(
+      UserAction.UPDATE_EVENT,
+      UpdateType.MINOR,
+      event,
+    );
     this.#replaceFormToCard(event);
+  };
+
+  #handleDeleteClick = (event) => {
+    this.#handleDataChange(
+      UserAction.DELETE_EVENT,
+      UpdateType.MINOR,
+      event,
+    );
   };
 
   #handleFavoriteClick = () => {
     this.#handleDataChange({...this.#event, isFavorite: !this.#event.isFavorite});
+
+    this.#handleDataChange(
+      UserAction.UPDATE_EVENT,
+      UpdateType.PATCH,
+      {...this.#event, isFavorite: !this.#event.isFavorite}
+    );
   };
 }

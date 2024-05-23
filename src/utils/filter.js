@@ -14,4 +14,4 @@ const filter = {
   [FilterType.PAST]: (events) => events.filter((event) => isEventPast(event)),
 };
 
-export {filter};
+export {filter, FilterType};

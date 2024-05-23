@@ -1,6 +1,7 @@
+import flatpickr from 'flatpickr';
+
 import AbstractStatefulView from '../framework/view/abstract-stateful-view';
 import {currentDate, formatDate, capitalizeFirstLetter} from '../utils/common';
-import flatpickr from 'flatpickr';
 
 import 'flatpickr/dist/flatpickr.min.css';
 
@@ -142,11 +143,12 @@ export default class EventEditView extends AbstractStatefulView {
 
   #handleFormSubmit = null;
   #handleResetClick = null;
+  #handleDeleteClick = null;
 
   #datepickerFrom = null;
   #datepickerTo = null;
 
-  constructor({event = BLANK_EVENT, destinations, offers, onFormSubmit, onResetClick}) {
+  constructor({event = BLANK_EVENT, destinations, offers, onFormSubmit, onResetClick, onDeleteClick}) {
     super();
 
     this.#destinations = destinations;
@@ -156,6 +158,7 @@ export default class EventEditView extends AbstractStatefulView {
 
     this.#handleFormSubmit = onFormSubmit;
     this.#handleResetClick = onResetClick;
+    this.#handleDeleteClick = onDeleteClick;
 
     this._restoreHandlers();
   }
@@ -185,17 +188,16 @@ export default class EventEditView extends AbstractStatefulView {
   };
 
   _restoreHandlers() {
-    this.element.querySelector('form')
-      .addEventListener('submit', this.#formSubmitHandler);
-
-    this.element.querySelector('.event__rollup-btn')
-      .addEventListener('click', this.#resetClickHandler);
-
-    this.element.querySelector('.event__type-group')
-      .addEventListener('click', this.#typeChangeHandler);
-
     this.element.querySelector('.event__input--destination')
       .addEventListener('change', this.#destinationChangeHandler);
+    this.element.querySelector('.event__type-group')
+      .addEventListener('click', this.#typeChangeHandler);
+    this.element.querySelector('form')
+      .addEventListener('submit', this.#formSubmitHandler);
+    this.element.querySelector('.event__reset-btn')
+      .addEventListener('click', this.#formDeleteClickHandler);
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#resetClickHandler);
 
     const offersBlock = this.element.querySelector('.event__available-offers');
 
@@ -212,6 +214,11 @@ export default class EventEditView extends AbstractStatefulView {
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     this.#handleFormSubmit(this.parseStateToEvent(this._state));
+  };
+
+  #formDeleteClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleDeleteClick(this.parseStateToEvent(this._state));
   };
 
   #resetClickHandler = (evt) => {
