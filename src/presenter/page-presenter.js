@@ -28,6 +28,8 @@ export default class PagePresenter {
   #offersModel = null;
   #offers = [];
 
+  #isEventCreating = false;
+
   constructor({eventsContainer, eventsModel, destinationsModel, offersModel, filterModel, onNewEventDestroy}) {
     this.#eventsContainer = eventsContainer;
     this.#eventsModel = eventsModel;
@@ -120,26 +122,25 @@ export default class PagePresenter {
     sortPresenter.init();
   }
 
-  #clearBoard({resetSortType = false} = {}) {
-    this.#newEventPresenter.destroy();
-    this.#eventPresenters.forEach((presenter) => presenter.destroy());
-    this.#eventPresenters.clear();
-
-    if (this.#noEventsComponent) {
-      remove(this.#noEventsComponent);
-    }
-
-    if (resetSortType) {
-      this.#currentSortType = SortType.DAY;
-    }
-  }
-
   #renderNoEvents() {
     this.#noEventsComponent = new NoEventsView({
       filterType: this.#filterType
     });
 
     render(this.#noEventsComponent, this.#eventsContainer);
+  }
+
+  #renderEvent(event) {
+    const eventPresenter = new EventPresenter({
+      eventsListContainer: this.#eventsListComponent.element,
+      destinationsModel: this.#destinationsModel,
+      offersModel: this.#offersModel,
+      onDataChange: this.#handleViewAction,
+      onModeChange: this.#handleModeChange,
+    });
+
+    eventPresenter.init(event);
+    this.#eventPresenters.set(event.id, eventPresenter);
   }
 
   #renderBoard() {
@@ -155,16 +156,17 @@ export default class PagePresenter {
     }
   }
 
-  #renderEvent(event) {
-    const eventPresenter = new EventPresenter({
-      eventsListContainer: this.#eventsListComponent.element,
-      destinationsModel: this.#destinationsModel,
-      offersModel: this.#offersModel,
-      onDataChange: this.#handleViewAction,
-      onModeChange: this.#handleModeChange,
-    });
+  #clearBoard({resetSortType = false} = {}) {
+    this.#newEventPresenter.destroy();
+    this.#eventPresenters.forEach((presenter) => presenter.destroy());
+    this.#eventPresenters.clear();
 
-    eventPresenter.init(event);
-    this.#eventPresenters.set(event.id, eventPresenter);
+    if (this.#noEventsComponent) {
+      remove(this.#noEventsComponent);
+    }
+
+    if (resetSortType) {
+      this.#currentSortType = SortType.DAY;
+    }
   }
 }

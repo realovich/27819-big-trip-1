@@ -40,7 +40,7 @@ const calculateDuration = (dateFrom, dateTo) => {
   return `${days}D ${restOfHours}H ${restOfMinutes}M`;
 };
 
-const currentDate = () => dayjs();
+const currentDate = () => dayjs().toDate();
 
 const generateFutureDate = () => {
   const minMinutesGap = 4;

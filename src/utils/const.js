@@ -10,4 +10,9 @@ const UpdateType = {
   MAJOR: 'MAJOR',
 };
 
-export {UserAction, UpdateType};
+const EditType = {
+  EDITING: 'EDITING',
+  CREATING: 'CREATING'
+};
+
+export {UserAction, UpdateType, EditType};
