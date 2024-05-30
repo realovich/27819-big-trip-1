@@ -19,7 +19,7 @@ export default class NewEventPresenter {
     this.#handleDestroy = onDestroy;
 
     this.#destinations = destinations;
-    this.offers = offers;
+    this.#offers = offers;
   }
 
   init() {
