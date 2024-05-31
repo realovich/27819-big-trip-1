@@ -28,8 +28,6 @@ export default class PagePresenter {
   #offersModel = null;
   #offers = [];
 
-  #isEventCreating = false;
-
   constructor({eventsContainer, eventsModel, destinationsModel, offersModel, filterModel, onNewEventDestroy}) {
     this.#eventsContainer = eventsContainer;
     this.#eventsModel = eventsModel;

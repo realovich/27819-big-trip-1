@@ -15,6 +15,17 @@ const BLANK_EVENT = {
   offers: [],
 };
 
+const createEventEditTypesTemplate = (selectedType, allOffers) => allOffers.map((offer) =>
+  `
+    <div class="event__type-item">
+      <input id="event-type-${offer.type.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${offer.type.toLowerCase()}"${selectedType === offer.type ? ' checked' : ''}>
+      <label class="event__type-label  event__type-label--${offer.type.toLowerCase()}" for="event-type-${offer.type.toLowerCase()}-1">${capitalizeFirstLetter(offer.type)}</label>
+    </div>
+  `
+).join('');
+
+const createEventEditDestinationListTemplate = (allDestinations) => allDestinations.map((eventDestination) => `<option value="${eventDestination.name}"></option>`).join('');
+
 const createEventEditOffersTemplate = (type, allOffers, eventOffers) => {
   const offersByType = allOffers.find((offer) => offer.type === type).offers;
 
@@ -47,15 +58,6 @@ const createEventEditOffersTemplate = (type, allOffers, eventOffers) => {
   `;
 };
 
-const createEventEditTypesTemplate = (selectedType, allOffers) => allOffers.map((offer) =>
-  `
-    <div class="event__type-item">
-      <input id="event-type-${offer.type.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${offer.type.toLowerCase()}"${selectedType === offer.type ? ' checked' : ''}>
-      <label class="event__type-label  event__type-label--${offer.type.toLowerCase()}" for="event-type-${offer.type.toLowerCase()}-1">${capitalizeFirstLetter(offer.type)}</label>
-    </div>
-  `
-).join('');
-
 const createEventEditDestinationTemplate = (destination, allDestinations) => {
   const eventDestination = allDestinations.find((oneDestination) => oneDestination.id === destination);
   const eventDestinationPictures = eventDestination ? eventDestination.pictures.map((picture) => `<img class="event__photo" src="${picture.src}" alt="${picture.alt}">`).join('') : [];
@@ -80,8 +82,6 @@ const createEventEditDestinationTemplate = (destination, allDestinations) => {
     </section>
   `;
 };
-
-const createEventEditDestinationListTemplate = (allDestinations) => allDestinations.map((eventDestination) => `<option value="${eventDestination.name}"></option>`).join('');
 
 const createEventEditTemplate = ({event = {}, allOffers, allDestinations, formType}) => {
   const {type, dateFrom, dateTo, basePrice, destination, offers: eventOffers} = event;
