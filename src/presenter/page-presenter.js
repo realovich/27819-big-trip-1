@@ -16,9 +16,11 @@ export default class PagePresenter {
   #eventsModel = null;
   #eventPresenters = new Map();
   #newEventPresenter = null;
+  #sortPresenter = null;
 
   #filterModel = null;
   #filterType = FilterType.EVERYTHING;
+  #isCreating = false;
 
   #currentSortType = SortType.DAY;
 
@@ -40,7 +42,14 @@ export default class PagePresenter {
       onDataChange: this.#handleViewAction,
       onDestroy: onNewEventDestroy,
       destinations: this.#destinationsModel.destinations,
-      offers: this.#offersModel.offers
+      offers: this.#offersModel.offers,
+      resetCreating: this.#resetCreating,
+    });
+
+    this.#sortPresenter = new SortPresenter({
+      container: this.#eventsContainer,
+      eventsModel: this.#eventsModel,
+      onSortFormChange: this.#handleSortFormChange,
     });
 
     this.#eventsModel.addObserver(this.#handleModelEvent);
@@ -64,6 +73,7 @@ export default class PagePresenter {
   }
 
   createEvent() {
+    this.#isCreating = true;
     this.#currentSortType = SortType.DAY;
     this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
     this.#newEventPresenter.init();
@@ -111,13 +121,7 @@ export default class PagePresenter {
   };
 
   #renderSort() {
-    const sortPresenter = new SortPresenter ({
-      container: this.#eventsContainer,
-      eventsModel: this.#eventsModel,
-      onSortFormChange: this.#handleSortFormChange,
-    });
-
-    sortPresenter.init();
+    this.#sortPresenter.init();
   }
 
   #renderNoEvents() {
@@ -126,6 +130,8 @@ export default class PagePresenter {
     });
 
     render(this.#noEventsComponent, this.#eventsContainer);
+
+    this.#sortPresenter.destroy();
   }
 
   #renderEvent(event) {
@@ -142,7 +148,7 @@ export default class PagePresenter {
   }
 
   #renderBoard() {
-    if (!this.getEvents().length) {
+    if (!this.getEvents().length && !this.#isCreating) {
       this.#renderNoEvents();
       return;
     }
@@ -167,4 +173,8 @@ export default class PagePresenter {
       this.#currentSortType = SortType.DAY;
     }
   }
+
+  #resetCreating = () => {
+    this.#isCreating = false;
+  };
 }

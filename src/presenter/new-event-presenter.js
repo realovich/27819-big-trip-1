@@ -7,19 +7,22 @@ export default class NewEventPresenter {
   #eventsListContainer = null;
   #handleDataChange = null;
   #handleDestroy = null;
+  #resetCreating = null;
 
   #destinations = [];
   #offers = [];
 
   #eventEditComponent = null;
 
-  constructor({eventsListContainer, onDataChange, onDestroy, destinations, offers}) {
+  constructor({eventsListContainer, onDataChange, onDestroy, destinations, offers, resetCreating}) {
     this.#eventsListContainer = eventsListContainer;
     this.#handleDataChange = onDataChange;
     this.#handleDestroy = onDestroy;
 
     this.#destinations = destinations;
     this.#offers = offers;
+
+    this.#resetCreating = resetCreating;
   }
 
   init() {
@@ -52,6 +55,8 @@ export default class NewEventPresenter {
     this.#eventEditComponent = null;
 
     document.removeEventListener('keydown', this.#escKeyDownHandler);
+
+    this.#resetCreating();
   }
 
   #handleFormSubmit = (event) => {
