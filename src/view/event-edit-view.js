@@ -1,15 +1,15 @@
 import flatpickr from 'flatpickr';
 
 import AbstractStatefulView from '../framework/view/abstract-stateful-view';
-import {currentDate, formatDate, capitalizeFirstLetter} from '../utils/common';
+import {capitalizeFirstLetter} from '../utils/common';
 import {EditType} from '../utils/const';
 
 import 'flatpickr/dist/flatpickr.min.css';
 
 const BLANK_EVENT = {
   basePrice: '',
-  dateFrom: currentDate(),
-  dateTo: currentDate(),
+  dateFrom: '',
+  dateTo: '',
   destination: null,
   type: 'taxi',
   offers: [],
@@ -123,7 +123,7 @@ const createEventEditTemplate = ({event = {}, allOffers, allDestinations, formTy
           <label class="event__label  event__type-output" for="event-destination-1">
             ${type}
           </label>
-          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${pointDestination?.name ?? ''}" list="destination-list-1">
+          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${pointDestination?.name ?? ''}" list="destination-list-1" required>
           <datalist id="destination-list-1">
             ${createEventEditDestinationListTemplate(allDestinations)}
           </datalist>
@@ -131,10 +131,10 @@ const createEventEditTemplate = ({event = {}, allOffers, allDestinations, formTy
   
         <div class="event__field-group  event__field-group--time">
           <label class="visually-hidden" for="event-start-time-1">From</label>
-          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${formatDate(dateFrom, 'DD/MM/YY HH:mm')}">
+          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${dateFrom}" required>
           &mdash;
           <label class="visually-hidden" for="event-end-time-1">To</label>
-          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${formatDate(dateTo, 'DD/MM/YY HH:mm')}">
+          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${dateTo}" required>
         </div>
   
         <div class="event__field-group  event__field-group--price">
@@ -142,7 +142,7 @@ const createEventEditTemplate = ({event = {}, allOffers, allDestinations, formTy
             <span class="visually-hidden">Price</span>
             &euro;
           </label>
-          <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${basePrice}">
+          <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${basePrice}" required>
         </div>
   
         <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>

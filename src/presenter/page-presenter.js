@@ -68,7 +68,6 @@ export default class PagePresenter {
     this.#destinations = this.#destinationsModel.destinations;
     this.#offers = this.#offersModel.offers;
 
-    this.#renderSort();
     this.#renderBoard();
   }
 
@@ -121,17 +120,20 @@ export default class PagePresenter {
   };
 
   #renderSort() {
+    this.#sortPresenter.destroy();
     this.#sortPresenter.init();
   }
 
-  #renderNoEvents() {
-    this.#noEventsComponent = new NoEventsView({
-      filterType: this.#filterType
-    });
+  #renderNoEventsIfNeeded() {
+    if (!this.getEvents().length && !this.#isCreating) {
+      this.#noEventsComponent = new NoEventsView({
+        filterType: this.#filterType
+      });
 
-    render(this.#noEventsComponent, this.#eventsContainer);
+      render(this.#noEventsComponent, this.#eventsContainer);
 
-    this.#sortPresenter.destroy();
+      this.#sortPresenter.destroy();
+    }
   }
 
   #renderEvent(event) {
@@ -148,11 +150,8 @@ export default class PagePresenter {
   }
 
   #renderBoard() {
-    if (!this.getEvents().length && !this.#isCreating) {
-      this.#renderNoEvents();
-      return;
-    }
-
+    this.#renderNoEventsIfNeeded();
+    this.#renderSort();
     render(this.#eventsListComponent, this.#eventsContainer);
 
     for (let i = 0; i < this.getEvents(this.#currentSortType).length; i++) {
@@ -176,5 +175,6 @@ export default class PagePresenter {
 
   #resetCreating = () => {
     this.#isCreating = false;
+    this.#renderNoEventsIfNeeded();
   };
 }

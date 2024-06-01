@@ -22,6 +22,7 @@ export default class SortPresenter {
     this.#events = [...this.#eventsModel.getEvents(this.#currentSortType)];
 
     this.#sortComponent = new SortView({
+      sortType: this.#currentSortType,
       onSortTypeChange: this.#handleSortTypeChange
     });
 
