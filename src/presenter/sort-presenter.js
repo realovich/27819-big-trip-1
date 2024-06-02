@@ -1,6 +1,6 @@
 import SortView from '../view/sort-view';
 import {SortType} from '../utils/sort';
-import {render} from '../framework/render';
+import {remove, render} from '../framework/render';
 
 export default class SortPresenter {
   #container = null;
@@ -22,6 +22,7 @@ export default class SortPresenter {
     this.#events = [...this.#eventsModel.getEvents(this.#currentSortType)];
 
     this.#sortComponent = new SortView({
+      sortType: this.#currentSortType,
       onSortTypeChange: this.#handleSortTypeChange
     });
 
@@ -30,6 +31,11 @@ export default class SortPresenter {
     }
 
     render(this.#sortComponent, this.#container);
+  }
+
+  destroy() {
+    remove(this.#sortComponent);
+    this.#sortComponent = null;
   }
 
   #handleSortTypeChange = (sortType) => {

@@ -40,7 +40,7 @@ const calculateDuration = (dateFrom, dateTo) => {
   return `${days}D ${restOfHours}H ${restOfMinutes}M`;
 };
 
-const currentDate = () => dayjs();
+const currentDate = () => dayjs().toDate();
 
 const generateFutureDate = () => {
   const minMinutesGap = 4;
@@ -57,15 +57,6 @@ const generatePastDate = () => {
   return dayjs(randomTimestamp).toDate();
 };
 
-const makeIdGenerator = () => {
-  let count = 0;
-
-  return () => {
-    count += 1;
-    return `${count}`;
-  };
-};
-
 const capitalizeFirstLetter = (word) => word.charAt(0).toUpperCase() + word.slice(1);
 
 const getRandomElements = (array, minSize, maxSize) => {
@@ -79,6 +70,4 @@ const getRandomElements = (array, minSize, maxSize) => {
 
 const replaceSpaceAndLowercase = (string) => string.replace(/ /g, '_').toLowerCase();
 
-const updateItem = (items, update) => items.map((item) => item.id === update.id ? update : item);
-
-export {getRandomArrayElement, getRandomElements, getRandomInteger, formatDate, calculateDuration, currentDate, generateFutureDate, generatePastDate, capitalizeFirstLetter, makeIdGenerator, replaceSpaceAndLowercase, updateItem};
+export {getRandomArrayElement, getRandomElements, getRandomInteger, formatDate, calculateDuration, currentDate, generateFutureDate, generatePastDate, capitalizeFirstLetter, replaceSpaceAndLowercase};

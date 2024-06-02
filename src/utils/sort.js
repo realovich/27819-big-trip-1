@@ -1,10 +1,14 @@
 import dayjs from 'dayjs';
 
 const SortType = {
-  DAY: 'sort-day',
-  TIME: 'sort-time',
-  PRICE: 'sort-price'
+  DAY: 'day',
+  EVENT: 'event',
+  TIME: 'time',
+  PRICE: 'price',
+  OFFER: 'offer'
 };
+
+const extractSortValue = (string) => string.split('-')[1];
 
 const calculateDuration = (event) => {
   const dateFrom = dayjs(event.dateFrom);
@@ -24,4 +28,4 @@ const sort = {
   [SortType.PRICE]: (events) => events.sort(sortEventsByPrice),
 };
 
-export {SortType, sort};
+export {SortType, sort, extractSortValue};

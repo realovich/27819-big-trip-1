@@ -1,16 +1,15 @@
-import { generateOffers } from './offers';
-import { generateDestinations } from './destinations';
-import {getRandomArrayElement, getRandomInteger, getRandomElements, generateFutureDate, generatePastDate, makeIdGenerator} from '../utils/common';
+import {nanoid} from 'nanoid';
+import {generateOffers} from './offers';
+import {generateDestinations} from './destinations';
+import {getRandomArrayElement, getRandomInteger, getRandomElements, generateFutureDate, generatePastDate} from '../utils/common';
 
 const eventOffersId = ['1', '2', '3', '4', '5', '6'];
-
-const generateEventId = makeIdGenerator();
 
 const generateEvent = () => {
   const offerType = getRandomArrayElement(generateOffers);
 
   return {
-    id: generateEventId(),
+    id: nanoid(),
     basePrice: getRandomInteger(80, 160),
     dateFrom: generatePastDate(),
     dateTo: generateFutureDate(),
