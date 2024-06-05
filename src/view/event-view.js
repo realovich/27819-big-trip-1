@@ -6,16 +6,18 @@ const createOffersListTemplate = (eventOffers) => {
     return '';
   }
 
+  const offersItemsTemplate = eventOffers.reduce((template, {title, price}) => `${template}
+  <li class="event__offer">
+    <span class="event__offer-title">${title}</span>
+    &plus;&euro;&nbsp;
+    <span class="event__offer-price">${price}</span>
+  </li>
+  `, '');
+
   return `
     <h4 class="visually-hidden">Offers:</h4>
     <ul class="event__selected-offers">
-    ${eventOffers.map(({title, price}) => `
-      <li class="event__offer">
-        <span class="event__offer-title">${title}</span>
-        &plus;&euro;&nbsp;
-        <span class="event__offer-price">${price}</span>
-      </li>
-    `).join('')}
+      ${offersItemsTemplate}
     </ul>
   `;
 };

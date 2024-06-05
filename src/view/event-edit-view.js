@@ -15,24 +15,24 @@ const BLANK_EVENT = {
   offers: [],
 };
 
-const createEventEditTypesTemplate = (selectedType, allOffers) => allOffers.map((offer) =>
-  `
+const createEventEditTypesTemplate = (selectedType, allOffers) =>
+  allOffers.reduce((template, offer) => `${template}
     <div class="event__type-item">
       <input id="event-type-${offer.type.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${offer.type.toLowerCase()}"${selectedType === offer.type ? ' checked' : ''}>
       <label class="event__type-label  event__type-label--${offer.type.toLowerCase()}" for="event-type-${offer.type.toLowerCase()}-1">${capitalizeFirstLetter(offer.type)}</label>
-    </div>
-  `
-).join('');
+    </div>`, '');
 
-const createEventEditDestinationListTemplate = (allDestinations) => allDestinations.map((eventDestination) => `<option value="${eventDestination.name}"></option>`).join('');
+const createEventEditDestinationListTemplate = (allDestinations) =>
+  allDestinations.reduce((template, eventDestination) => `${template}
+    <option value="${eventDestination.name}"></option>`, '');
 
 const createEventEditOffersTemplate = (type, allOffers, eventOffers) => {
   const offersByType = allOffers.find((offer) => offer.type === type).offers;
 
   const setCheckedAttribute = (currentOfferId) => eventOffers.find((eventOffer) => eventOffer === currentOfferId) ? 'checked' : '';
 
-  const offersList = offersByType.map((offer) =>
-    `
+  const offersList = offersByType.reduce((template, offer) =>
+    `${template}
     <div class="event__offer-selector">
       <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.id}" type="checkbox" name="event-offer-${offer.id}" ${setCheckedAttribute(offer.id)} data-offer-id="${offer.id}">
       <label class="event__offer-label" for="event-offer-${offer.id}">
@@ -41,7 +41,7 @@ const createEventEditOffersTemplate = (type, allOffers, eventOffers) => {
         <span class="event__offer-price">${offer.price}</span>
       </label>
     </div>
-  `).join('');
+  `, '');
 
   if (!eventOffers) {
     return '';
@@ -60,7 +60,7 @@ const createEventEditOffersTemplate = (type, allOffers, eventOffers) => {
 
 const createEventEditDestinationTemplate = (destination, allDestinations) => {
   const eventDestination = allDestinations.find((oneDestination) => oneDestination.id === destination);
-  const eventDestinationPictures = eventDestination ? eventDestination.pictures.map((picture) => `<img class="event__photo" src="${picture.src}" alt="${picture.alt}">`).join('') : [];
+  const eventDestinationPictures = eventDestination ? eventDestination.pictures.reduce((template, picture) => `${template}<img class="event__photo" src="${picture.src}" alt="${picture.alt}">`, '') : [];
 
   const eventPhotosContainer = () => eventDestinationPictures.length > 0 ? `
       <div class="event__photos-container">

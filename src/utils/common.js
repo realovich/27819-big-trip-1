@@ -5,8 +5,6 @@ const SECONDS_PER_MINUTE = 60;
 const MINUTES_PER_HOUR = 60;
 const HOURS_PER_DAY = 24;
 
-const getRandomArrayElement = (items) => items[Math.floor(Math.random() * items.length)];
-
 const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -40,34 +38,6 @@ const calculateDuration = (dateFrom, dateTo) => {
   return `${days}D ${restOfHours}H ${restOfMinutes}M`;
 };
 
-const currentDate = () => dayjs().toDate();
-
-const generateFutureDate = () => {
-  const minMinutesGap = 4;
-  const maxMinutesGap = 4 * 24 * 60;
-  const daysGap = getRandomInteger(minMinutesGap, maxMinutesGap);
-
-  return dayjs().add(daysGap, 'minutes').toDate();
-};
-
-const generatePastDate = () => {
-  const now = dayjs();
-  const fourDaysAgo = now.subtract(4, 'day');
-  const randomTimestamp = fourDaysAgo.valueOf() + Math.random() * (now.valueOf() - fourDaysAgo.valueOf());
-  return dayjs(randomTimestamp).toDate();
-};
-
 const capitalizeFirstLetter = (word) => word.charAt(0).toUpperCase() + word.slice(1);
 
-const getRandomElements = (array, minSize, maxSize) => {
-
-  const shuffledArray = array.sort(() => Math.random() - 0.5);
-
-  const count = Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize;
-
-  return shuffledArray.slice(0, count);
-};
-
-const replaceSpaceAndLowercase = (string) => string.replace(/ /g, '_').toLowerCase();
-
-export {getRandomArrayElement, getRandomElements, getRandomInteger, formatDate, calculateDuration, currentDate, generateFutureDate, generatePastDate, capitalizeFirstLetter, replaceSpaceAndLowercase};
+export {getRandomInteger, formatDate, calculateDuration, capitalizeFirstLetter};
