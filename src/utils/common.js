@@ -5,13 +5,6 @@ const SECONDS_PER_MINUTE = 60;
 const MINUTES_PER_HOUR = 60;
 const HOURS_PER_DAY = 24;
 
-const getRandomInteger = (a = 0, b = 1) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
-
 const formatDate = (date, format) => {
   if (!date || !format) {
     return null;
@@ -40,4 +33,4 @@ const calculateDuration = (dateFrom, dateTo) => {
 
 const capitalizeFirstLetter = (word) => word.charAt(0).toUpperCase() + word.slice(1);
 
-export {getRandomInteger, formatDate, calculateDuration, capitalizeFirstLetter};
+export {formatDate, calculateDuration, capitalizeFirstLetter};
