@@ -1,4 +1,5 @@
 import NoEventsView from '../view/no-events-view';
+import LoadingView from '../view/loading-view';
 import EventsListView from '../view/events-list-view';
 import SortPresenter from './sort-presenter';
 import EventPresenter from './event-presenter';
@@ -10,6 +11,7 @@ import {filter, FilterType} from '../utils/filter';
 
 export default class PagePresenter {
   #eventsListComponent = new EventsListView();
+  #loadingComponent = new LoadingView();
   #noEventsComponent = null;
 
   #eventsContainer = null;
@@ -21,6 +23,7 @@ export default class PagePresenter {
   #filterModel = null;
   #filterType = FilterType.EVERYTHING;
   #isCreating = false;
+  #isLoading = true;
 
   #currentSortType = SortType.DAY;
 
@@ -110,6 +113,11 @@ export default class PagePresenter {
         this.#clearBoard({resetSortType: true});
         this.#renderBoard();
         break;
+      case UpdateType.INIT:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
+        this.#renderBoard();
+        break;
     }
   };
 
@@ -122,6 +130,10 @@ export default class PagePresenter {
   #renderSort() {
     this.#sortPresenter.destroy();
     this.#sortPresenter.init();
+  }
+
+  #renderLoading() {
+    render(this.#loadingComponent, this.#eventsContainer);
   }
 
   #renderNoEventsIfNeeded() {
@@ -150,9 +162,15 @@ export default class PagePresenter {
   }
 
   #renderBoard() {
-    this.#renderNoEventsIfNeeded();
     this.#renderSort();
     render(this.#eventsListComponent, this.#eventsContainer);
+
+    if (this.#isLoading) {
+      this.#renderLoading();
+      return;
+    }
+
+    this.#renderNoEventsIfNeeded();
 
     for (let i = 0; i < this.getEvents(this.#currentSortType).length; i++) {
       this.#renderEvent(this.getEvents(this.#currentSortType)[i]);

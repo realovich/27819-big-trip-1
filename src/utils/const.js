@@ -8,6 +8,7 @@ const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+  INIT: 'INIT',
 };
 
 const EditType = {
@@ -15,4 +16,9 @@ const EditType = {
   CREATING: 'CREATING'
 };
 
-export {UserAction, UpdateType, EditType};
+const Method = {
+  GET: 'GET',
+  PUT: 'PUT',
+};
+
+export {UserAction, UpdateType, EditType, Method};

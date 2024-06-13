@@ -29,11 +29,15 @@ const createSortItem = (sortItem) => `
   </div>
  `;
 
-const createSortTemplate = ({sortMap}) => `
-<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
-  ${sortMap.map((sortItem) => createSortItem(sortItem)).join('')}
-</form>
-`;
+const createSortTemplate = ({sortMap}) => {
+  const sortItemsTemplate = sortMap.reduce((template, sortItem) => template + createSortItem(sortItem), '');
+
+  return `
+  <form class="trip-events__trip-sort  trip-sort" action="#" method="get">
+    ${sortItemsTemplate}
+  </form>
+  `;
+};
 
 export default class SortView extends AbstractView {
   #sortMap = null;

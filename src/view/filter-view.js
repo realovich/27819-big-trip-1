@@ -20,9 +20,8 @@ const createFilterItemTemplate = (filter, currentFilterType) => {
 };
 
 const createFilterTemplate = (filterItems, currentFilterType) => {
-  const filterItemsTemplate = filterItems
-    .map((filter) => createFilterItemTemplate(filter, currentFilterType))
-    .join('');
+  const filterItemsTemplate = filterItems.reduce((template ,filter) =>
+    template + createFilterItemTemplate(filter, currentFilterType),'');
 
   return /*html*/`
   <form class="trip-filters" action="#" method="get">
