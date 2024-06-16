@@ -8,18 +8,18 @@ export default class NewEventPresenter {
   #handleDestroy = null;
   #resetCreating = null;
 
-  #destinations = [];
-  #offers = [];
+  #destinationsModel = null;
+  #offersModel = null;
 
   #eventEditComponent = null;
 
-  constructor({eventsListContainer, onDataChange, onDestroy, destinations, offers, resetCreating}) {
+  constructor({eventsListContainer, onDataChange, onDestroy, destinationsModel, offersModel, resetCreating}) {
     this.#eventsListContainer = eventsListContainer;
     this.#handleDataChange = onDataChange;
     this.#handleDestroy = onDestroy;
 
-    this.#destinations = destinations;
-    this.#offers = offers;
+    this.#destinationsModel = destinationsModel;
+    this.#offersModel = offersModel;
 
     this.#resetCreating = resetCreating;
   }
@@ -33,8 +33,8 @@ export default class NewEventPresenter {
       onFormSubmit: this.#handleFormSubmit,
       onResetClick: this.#handleResetClick,
       onDeleteClick: this.#handleDeleteClick,
-      destinations: this.#destinations,
-      offers: this.#offers,
+      destinations: this.#destinationsModel.destinations,
+      offers: this.#offersModel.offers,
       formType: EditType.CREATING
     });
 
@@ -58,13 +58,31 @@ export default class NewEventPresenter {
     this.#resetCreating();
   }
 
+  setSaving() {
+    this.#eventEditComponent.updateElement({
+      isDisabled: true,
+      isSaving: true
+    });
+  }
+
+  setAborting() {
+    const resetFormState = () => {
+      this.#eventEditComponent.updateElement({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+
+    this.#eventEditComponent.shake(resetFormState);
+  }
+
   #handleFormSubmit = (event) => {
     this.#handleDataChange(
       UserAction.ADD_EVENT,
       UpdateType.MINOR,
       event,
     );
-    this.destroy();
   };
 
   #handleResetClick = () => {

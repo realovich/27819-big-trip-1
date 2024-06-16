@@ -74,7 +74,7 @@ export default class EventsModel extends Observable {
       this.#events = [newEvent, ...this.#events];
       this._notify(updateType, newEvent);
     } catch(err) {
-      throw new Error('Can\t add event');
+      throw new Error('Can\'t add event');
     }
   }
 
