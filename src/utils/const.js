@@ -19,6 +19,8 @@ const EditType = {
 const Method = {
   GET: 'GET',
   PUT: 'PUT',
+  POST: 'POST',
+  DELETE: 'DELETE',
 };
 
 export {UserAction, UpdateType, EditType, Method};
