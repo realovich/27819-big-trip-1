@@ -44,7 +44,7 @@ const createEventEditOffersTemplate = (type, allOffers, eventOffers, isDisabled)
     </div>
   `, '');
 
-  if (!eventOffers) {
+  if (!offersList) {
     return '';
   }
 

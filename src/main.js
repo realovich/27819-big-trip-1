@@ -1,8 +1,5 @@
-import InfoView from './view/info-view';
-import InfoMainView from './view/info-main-view';
-import InfoCostView from './view/info-cost-view';
 import NewEventButtonView from './view/new-event-button-view';
-import {render, RenderPosition} from './framework/render';
+import {render} from './framework/render';
 import PagePresenter from './presenter/page-presenter';
 import FilterPresenter from './presenter/filter-presenter';
 import EventsModel from './model/events-model';
@@ -20,12 +17,6 @@ const mainElement = document.querySelector('.trip-main');
 const eventsElement = document.querySelector('.trip-events');
 const filtersElement = document.querySelector('.trip-controls__filters');
 
-render(new InfoView(), mainElement, RenderPosition.AFTERBEGIN);
-
-const infoElement = mainElement.querySelector('.trip-info');
-render(new InfoMainView(), infoElement);
-render(new InfoCostView(), infoElement);
-
 const filterModel = new FilterModel();
 const destinationsModel = new DestinationsModel({
   destinationsApiService: new DestinationsApiService(END_POINT, AUTHORIZATION)
@@ -40,6 +31,7 @@ const eventsModel = new EventsModel({
 });
 
 const pagePresenter = new PagePresenter({
+  mainContainer: mainElement,
   eventsContainer: eventsElement,
   eventsModel,
   destinationsModel,

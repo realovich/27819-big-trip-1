@@ -1,6 +1,7 @@
 import NoEventsView from '../view/no-events-view';
 import LoadingView from '../view/loading-view';
 import EventsListView from '../view/events-list-view';
+import TripInfoPresenter from '../presenter/trip-info-presenter';
 import SortPresenter from './sort-presenter';
 import EventPresenter from './event-presenter';
 import NewEventPresenter from './new-event-presenter';
@@ -20,8 +21,10 @@ export default class PagePresenter {
   #loadingComponent = new LoadingView();
   #noEventsComponent = null;
 
+  #mainContainer = null;
   #eventsContainer = null;
   #eventsModel = null;
+  #tripInfoPresenter = null;
   #eventPresenters = new Map();
   #newEventPresenter = null;
   #sortPresenter = null;
@@ -44,12 +47,26 @@ export default class PagePresenter {
     upperLimit: TimeLimit.UPPER_LIMIT
   });
 
-  constructor({eventsContainer, eventsModel, destinationsModel, offersModel, filterModel, onNewEventDestroy}) {
+  constructor({mainContainer, eventsContainer, eventsModel, destinationsModel, offersModel, filterModel, onNewEventDestroy}) {
+    this.#mainContainer = mainContainer;
     this.#eventsContainer = eventsContainer;
     this.#eventsModel = eventsModel;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
     this.#filterModel = filterModel;
+
+    this.#tripInfoPresenter = new TripInfoPresenter({
+      tripInfoContainer: this.#mainContainer,
+      eventsModel: this.#eventsModel,
+      destinationsModel: this.#destinationsModel,
+      offersModel: this.#offersModel
+    });
+
+    this.#sortPresenter = new SortPresenter({
+      container: this.#eventsContainer,
+      eventsModel: this.#eventsModel,
+      onSortFormChange: this.#handleSortFormChange,
+    });
 
     this.#newEventPresenter = new NewEventPresenter({
       eventsListContainer: this.#eventsListComponent.element,
@@ -58,12 +75,6 @@ export default class PagePresenter {
       destinationsModel: this.#destinationsModel,
       offersModel: this.#offersModel,
       resetCreating: this.#resetCreating,
-    });
-
-    this.#sortPresenter = new SortPresenter({
-      container: this.#eventsContainer,
-      eventsModel: this.#eventsModel,
-      onSortFormChange: this.#handleSortFormChange,
     });
 
     this.#eventsModel.addObserver(this.#handleModelEvent);
@@ -157,6 +168,10 @@ export default class PagePresenter {
     this.#renderBoard();
   };
 
+  #renderTripInfo() {
+    this.#tripInfoPresenter.init();
+  }
+
   #renderSort() {
     this.#sortPresenter.destroy();
     this.#sortPresenter.init();
@@ -192,6 +207,7 @@ export default class PagePresenter {
   }
 
   #renderBoard() {
+    this.#renderTripInfo();
     this.#renderSort();
     render(this.#eventsListComponent, this.#eventsContainer);
 
