@@ -37,10 +37,7 @@ export default class PagePresenter {
   #currentSortType = SortType.DAY;
 
   #destinationsModel = null;
-  #destinations = [];
-
   #offersModel = null;
-  #offers = [];
 
   #uiBlocker = new UiBlocker({
     lowerLimit: TimeLimit.LOWER_LIMIT,
@@ -90,9 +87,6 @@ export default class PagePresenter {
   }
 
   init() {
-    this.#destinations = this.#destinationsModel.destinations;
-    this.#offers = this.#offersModel.offers;
-
     this.#renderBoard();
   }
 
@@ -184,7 +178,7 @@ export default class PagePresenter {
   #renderNoEventsIfNeeded() {
     if (!this.getEvents().length && !this.#isCreating) {
       this.#noEventsComponent = new NoEventsView({
-        filterType: this.#filterType
+        filterType: this.#offersModel.offers?.length ? this.#filterType : FilterType.EMPTY,
       });
 
       render(this.#noEventsComponent, this.#eventsContainer);

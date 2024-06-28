@@ -1,6 +1,7 @@
 import {isEventFuture, isEventPresent, isEventPast} from './event';
 
 const FilterType = {
+  EMPTY: 'empty',
   EVERYTHING: 'everything',
   FUTURE: 'future',
   PRESENT: 'present',

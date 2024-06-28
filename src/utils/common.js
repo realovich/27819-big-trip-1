@@ -39,6 +39,10 @@ const generateTripPeriod = (events) => {
     dateTo: dayjs(event.dateTo)
   }));
 
+  if (!dates.length) {
+    return '';
+  }
+
   const minDate = dates.reduce((min, item) => item.dateFrom.isBefore(min) ? item.dateFrom : min, dates[0].dateFrom);
   const maxDate = dates.reduce((max, item) => item.dateTo.isAfter(max) ? item.dateTo : max, dates[0].dateTo);
 

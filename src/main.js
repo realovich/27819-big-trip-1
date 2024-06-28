@@ -61,7 +61,12 @@ function handleNewEventButtonClick() {
 
 filterPresenter.init();
 pagePresenter.init();
+
 eventsModel.init()
   .finally(() => {
     render(newEventButtonComponent, mainElement);
+
+    if (!offersModel.offers.length || !destinationsModel.destinations.length) {
+      newEventButtonComponent.element.disabled = true;
+    }
   });
