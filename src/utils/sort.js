@@ -18,7 +18,7 @@ const calculateDuration = (event) => {
 
 const sortEventsByDay = (eventA, eventB) => dayjs(eventA.dateFrom).diff(dayjs(eventB.dateFrom));
 
-const sortEventsByDuration = (eventA, eventB) => calculateDuration(eventA) - calculateDuration(eventB);
+const sortEventsByDuration = (eventA, eventB) => calculateDuration(eventB) - calculateDuration(eventA);
 
 const sortEventsByPrice = (eventA, eventB) => eventB.basePrice - eventA.basePrice;
 
