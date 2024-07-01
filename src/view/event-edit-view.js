@@ -282,20 +282,21 @@ export default class EventEditView extends AbstractStatefulView {
   #typeChangeHandler = (evt) => {
     evt.preventDefault();
 
-    const checkedType = evt.target.textContent.toLowerCase();
+    if (evt.target.classList.contains('event__type-label')) {
+      const checkedType = evt.target.textContent.toLowerCase();
 
-    this.updateElement({
-      ...this._state,
-      type: checkedType,
-      offers: []
-    });
+      this.updateElement({
+        ...this._state,
+        type: checkedType,
+        offers: []
+      });
+    }
   };
 
   #destinationChangeHandler = (evt) => {
     evt.preventDefault();
 
     const updatedDestination = this.#destinations.find((destination) => destination.name === evt.target.value);
-
     const updatedDestinationId = (updatedDestination) ? updatedDestination.id : null;
 
     this.updateElement({
@@ -334,21 +335,25 @@ export default class EventEditView extends AbstractStatefulView {
   };
 
   #dateFromChangeHandler = ([userDate]) => {
-    this._setState({
-      ...this._state,
-      dateFrom: userDate
-    });
+    if (userDate) {
+      this._setState({
+        ...this._state,
+        dateFrom: userDate
+      });
 
-    this.#datepickerTo.set('minDate', this._state.dateFrom);
+      this.#datepickerTo.set('minDate', this._state.dateFrom);
+    }
   };
 
   #dateToChangeHandler = ([userDate]) => {
-    this._setState({
-      ...this._state,
-      dateTo: userDate
-    });
+    if (userDate) {
+      this._setState({
+        ...this._state,
+        dateTo: userDate
+      });
 
-    this.#datepickerFrom.set('maxDate', this._state.dateTo);
+      this.#datepickerFrom.set('maxDate', this._state.dateTo);
+    }
   };
 
   #setDatePickers() {

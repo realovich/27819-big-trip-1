@@ -21,19 +21,20 @@ export default class SortPresenter {
   init() {
     this.#events = [...this.#eventsModel.getEvents(this.#currentSortType)];
 
+    if (this.#events.length === 0) {
+      return;
+    }
+
     this.#sortComponent = new SortView({
       sortType: this.#currentSortType,
       onSortTypeChange: this.#handleSortTypeChange
     });
 
-    if (this.#events.length === 0) {
-      return;
-    }
-
     render(this.#sortComponent, this.#container);
   }
 
-  destroy() {
+  destroy(sortType) {
+    this.#currentSortType = sortType;
     remove(this.#sortComponent);
     this.#sortComponent = null;
   }

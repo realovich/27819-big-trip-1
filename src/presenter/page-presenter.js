@@ -167,7 +167,7 @@ export default class PagePresenter {
   }
 
   #renderSort() {
-    this.#sortPresenter.destroy();
+    this.#sortPresenter.destroy(this.#currentSortType);
     this.#sortPresenter.init();
   }
 
@@ -229,6 +229,8 @@ export default class PagePresenter {
     if (resetSortType) {
       this.#currentSortType = SortType.DAY;
     }
+
+    this.#renderSort();
   }
 
   #resetCreating = () => {

@@ -53,7 +53,6 @@ export default class SortView extends AbstractView {
         isDisabled: !enabledSortType[type]
       }));
 
-
     this.#handleSortTypeChange = onSortTypeChange;
 
     this.element.addEventListener('change', this.#sortTypeChangeHandler);
